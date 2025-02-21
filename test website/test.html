@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Profile</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+            position: relative;
+        }
+        .profile-button, .leaderboard-button {
+            position: absolute;
+            top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #4285F4;
+            color: white;
+            border-radius: 5px;
+        }
+        .profile-button {
+            right: 10px;
+        }
+        .leaderboard-button {
+            left: 10px;
+        }
+        .login-container {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            background-color: #ffcc00;
+            border-radius: 5px;
+        }
+        img {
+            max-width: 80%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        #pokemonName {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        #counter {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <button class="profile-button" onclick="toggleLogin()">Profile</button>
+    <button class="leaderboard-button" onclick="viewLeaderboard()">Leaderboard</button>
+    
+    <div id="loginContainer" class="login-container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <button onclick="register()">Register</button>
+    </div>
+    
+    <div id="initialScreen">
+        <h2>Welcome, Trainer!</h2>
+        <button id="throwButton" onclick="throwPokeball()" disabled>Throw a Pokéball</button>
+    </div>
+    
+    <div id="pokemonDisplay" style="display:none;">
+        <img id="dailyImage" src="" alt="Daily Pokémon">
+        <div id="pokemonName"></div>
+        <div id="counter"></div>
+    </div>
+    
+    <script>
+        function toggleLogin() {
+            document.getElementById('loginContainer').style.display = 'block';
+        }
+        
+        function viewLeaderboard() {
+            window.location.href = 'leaderboard.html';
+        }
+        
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const storedPassword = localStorage.getItem(username);
+            
+            if (storedPassword && storedPassword === password) {
+                alert('Login successful!');
+                localStorage.setItem('loggedInUser', username);
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('throwButton').disabled = false;
+            } else {
+                alert('Invalid username or password.');
+            }
+        }
+        
+        function register() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (localStorage.getItem(username)) {
+                alert('Username already exists.');
+            } else {
+                localStorage.setItem(username, password);
+                localStorage.setItem(`${username}_caught`, JSON.stringify([]));
+                alert('Registration successful! You can now log in.');
+            }
+        }
+    </script>
+</body>
+</html>
+

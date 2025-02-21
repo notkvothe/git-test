@@ -6,6 +6,7 @@ let num3 = 33 + 6
 
 alert (`You have received this message because you have been chosen to open an important vault. Here is the secret combination: ${num1}-${num2}-${num3}`)
 
+console.log("Test");
 
 
-
+// test note
